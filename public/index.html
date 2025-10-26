@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>GST Automation - Upload</title>
+  <style>
+    body{font-family: Arial, sans-serif; padding: 24px}
+    .card{border:1px solid #ddd; padding:16px; border-radius:8px; max-width:600px}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Upload Invoice</h2>
+    <form id="uploadForm" enctype="multipart/form-data">
+      <input type="file" name="invoice" accept="image/*" required />
+      <button type="submit">Upload</button>
+    </form>
+    <h3>Recent</h3>
+    <ul id="list"></ul>
+  </div>
+<script>
+const form = document.getElementById('uploadForm');
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const fd = new FormData(form);
+  const res = await fetch('/api/upload', { method:'POST', body: fd });
+  const data = await res.json();
+  alert('Uploaded id: ' + data.id);
+  loadList();
+});
+async function loadList(){
+  const res = await fetch('/api/status');
+  const rows = await res.json();
+  const ul = document.getElementById('list');
+  ul.innerHTML = '';
+  rows.forEach(r=>{
+    const li = document.createElement('li');
+    li.textContent = `#${r.id} ${r.filename} — ${r.status}`;
+    ul.appendChild(li);
+  });
+}
+loadList();
+</script>
+</body>
+</html>
