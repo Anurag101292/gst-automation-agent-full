@@ -38,6 +38,58 @@ Create a repo `gst-automation-agent` under your account (`Anurag101292`), then r
 git init
 git add .
 git commit -m "Initial commit - gst automation agent"
+
+
+            🧑‍💻 USER
+                |
+                | Upload invoice image
+                V
+        +-------------------+
+        |   server.js       |  Express server
+        | (UI + API layer)  |
+        +---------+---------+
+                  |
+                  | Save file + Insert into DB
+                  V
+         +--------+---------+
+         | upload.js        |   Route Handler
+         +--------+---------+
+                  |
+                  | Call addJob() 👇
+                  V
+        +---------+---------+
+        | producer.js       |  Job dispatcher (BullMQ)
+        +---------+---------+
+                  |
+                  | Job queued in Redis
+                  V
+        +---------+---------+
+        |  Redis Queue      |
+        +---------+---------+
+                  |
+                  | Worker picks job 🔔
+                  V
+        +---------+---------+
+        | worker.js         |  Background processor
+        |-------------------|
+        | OCR via Tesseract |
+        | Parse invoice     |
+        | Playwright login  |
+        | OTP wait          |
+        | Invoice submission|
+        +---------+---------+
+                  |
+                  | Update Status ✅
+                  V
+         +--------+--------+
+         | SQLite DB       |
+         +--------+--------+
+                  |
+                  | UI polls status
+                  V
+            🖥 Dashboard/HTML
+            “✅ Completed / ❌ Failed”
+
 git branch -M main
 git remote add origin https://github.com/Anurag101292/gst-automation-agent.git
 git push -u origin main
