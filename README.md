@@ -39,6 +39,13 @@ git init
 git add .
 git commit -m "Initial commit - gst automation agent"
 
+git branch -M main
+git remote add origin https://github.com/Anurag101292/gst-automation-agent.git
+git push -u origin main
+```
+
+See `docker/docker-compose.yml` for services (app, worker, redis).
+
 
             🧑‍💻 USER
                 |
@@ -89,10 +96,3 @@ git commit -m "Initial commit - gst automation agent"
                   V
             🖥 Dashboard/HTML
             “✅ Completed / ❌ Failed”
-
-git branch -M main
-git remote add origin https://github.com/Anurag101292/gst-automation-agent.git
-git push -u origin main
-```
-
-See `docker/docker-compose.yml` for services (app, worker, redis).
